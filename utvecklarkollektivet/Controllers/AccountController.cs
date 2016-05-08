@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using utvecklarkollektivet.Models;
+using System.Net.Http;
+using System.Collections.Generic;
 
 namespace utvecklarkollektivet.Controllers
 {
@@ -152,6 +154,18 @@ namespace utvecklarkollektivet.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                var client = new HttpClient();
+                var values = new Dictionary<string, string>
+                {
+                    { "email", model.Email },
+                    { "token", System.Web.Configuration.WebConfigurationManager.AppSettings["SlackApiKey"] },
+                    { "set_active", "true" }
+                };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("https://utvecklarkollektivet.slack.com/api/users.admin.invite", content);
+                var responseString = await response.Content.ReadAsStringAsync();
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
