@@ -19,6 +19,14 @@ namespace utvecklarkollektivet.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private static Random random = new Random();
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
 
         public AccountController()
         {
@@ -151,6 +159,15 @@ namespace utvecklarkollektivet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
+            // If user don't care about password, generate one
+            if (model.Password == null || model.ConfirmPassword == null)
+            {
+                string generatedPW = RandomString(22);
+                model.Password = generatedPW;
+                model.ConfirmPassword = generatedPW;
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
