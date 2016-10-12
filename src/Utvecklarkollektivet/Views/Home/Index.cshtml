@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Äntligen har vi hittat dig";
+}
+
+<img src="~/images/brygga.jpg" alt="Stor bild på en ensam brygga" />
+<div class="jumbotron">
+    <h1>Du behöver inte vara ensam...</h1>
+    <p class="lead">
+        Gör som över 400 andra professionella, studerande och fritidsutvecklare samt kodare och gå med i Utvecklarkollektivet!
+        Vi är ett härligt gäng som hjälper, utmanar och engagerar varandra, främst med hjälp av verktyget Slack men även via kod på Github. Vi har även en podcast och driver andra projekt tillsammans.
+    </p>
+    <p>
+        @Html.ActionLink("Läs mer", "About", "Home", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Gå med", "Register", "Account", null, new { @class = "btn btn-success" })
+    </p>
+</div>
