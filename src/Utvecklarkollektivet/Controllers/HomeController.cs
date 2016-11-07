@@ -27,5 +27,10 @@ namespace Utvecklarkollektivet.Controllers
         {
             return View();
         }
+
+        public IActionResult Jobs()
+        {
+            return View();
+        }
     }
 }
